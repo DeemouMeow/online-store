@@ -1,0 +1,11 @@
+.device_name {
+    max-height: 24px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.device_card {
+    width: 150px;
+    cursor: pointer;
+}
