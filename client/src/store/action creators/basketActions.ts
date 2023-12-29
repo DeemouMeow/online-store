@@ -31,8 +31,6 @@ export const deleteDevice = createAsyncThunk(
     async (deviceData: IBasketDevice, thunkAPI) => {
         try {
             const response = await $api.post("/basket/remove", { deviceId: deviceData.deviceId, basketId: deviceData.basketId });
-            console.log("Response", response.data);
-            console.log("Data", deviceData);
             return deviceData;
         } catch (e: any) {
             thunkAPI.rejectWithValue(e.response.data.message);

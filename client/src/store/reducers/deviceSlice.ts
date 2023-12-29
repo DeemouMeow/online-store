@@ -27,9 +27,7 @@ export const deviceSlice = createSlice({
         .addCase(createDevice.fulfilled.type, (state, action: PayloadAction<IDevice>) => {
             state.isLoading = false;
             state.error = null;
-            console.log("Payload ", action.payload);
-            
-            // state.devices = [...state.devices, action.payload];
+            state.devices = [...state.devices, action.payload]; // probably need to be a comment*
         })
         .addCase(createDevice.rejected.type, (state, action: PayloadAction<string>) => {
             state.isLoading = false;

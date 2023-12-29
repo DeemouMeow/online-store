@@ -13,6 +13,7 @@ export default class DeviceController {
 
             const device = await Device.create({ name, price, typeId, brandId, img: fileName });
 
+
             if (info) {
                 (JSON.parse(info)).forEach(i => {
                     DeviceInfo.create({
@@ -31,19 +32,20 @@ export default class DeviceController {
 
     static async getAll(req, res, next) {
         try {
-            const { typeId, brandId, limit = 5, page = 1 } = req.query;
+            const { typeId, brandId, limit = 20, page = 1 } = req.query;
             const selector = {};
             const offset = limit * (page - 1);
-
+            
             if (typeId) selector.typeId = typeId;
             if (brandId) selector.brandId = brandId;
-
+            
             const devices = await Device.findAndCountAll({
                 where: selector,
                 limit,
                 offset
             });
-
+            console.log("In getAll", devices.rows);
+            
             const infos = await DeviceInfo.findAll();
             return res.json({devices, infos});
         } catch (e) {

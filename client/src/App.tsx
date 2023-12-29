@@ -1,10 +1,11 @@
 import { BrowserRouter } from 'react-router-dom'
 import AppRouter from './components/AppRouter';
 import NavBar from './components/UI/NavBar';
-import { useAppDispatch } from './hooks/redux';
+import { useAppDispatch, useTypedSelector } from './hooks/redux';
 import { userSlice } from './store/reducers/userSlice';
 import { useEffect } from 'react';
 import { basketActions, brandActions, deviceActions, typeActions } from './store/action creators';
+import { Spinner } from 'react-bootstrap';
 
 const App = () => {
   const dispatch = useAppDispatch();

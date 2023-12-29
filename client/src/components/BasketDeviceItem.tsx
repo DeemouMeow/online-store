@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
 import { IBasketDevice } from "../types/models/IBasketDevice";
 import { Row, Image, FormSelect, Button } from "react-bootstrap";
 import { useAppDispatch, useTypedSelector } from "../hooks/redux";
@@ -10,24 +10,39 @@ import { basketActions } from "../store/action creators";
 interface IBasketDeviceItemProps {
     basketDevice: IBasketDevice;
     setTotalPrice: (price: React.SetStateAction<number>) => void;
+    isDeleted: boolean;
+    setIsDeleted: (state: React.SetStateAction<boolean>) => void;
 }
 
-const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPrice }) => {
+const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPrice, isDeleted, setIsDeleted }) => {
     const dispatch = useAppDispatch();
-    const { devices } = useTypedSelector(state => state.deviceReducer);
+    const devices = useTypedSelector(state => state.deviceReducer.devices);
     const device = devices.find(device => device.id === basketDevice.deviceId);
     const [count, setCount] = useState<number>(1);
-    const [price, setPrice] = useState<number>((device?.price || 0) * count);
+    const [constant, setConstant] = useState<number>(1);
+    const defaultPrice = device?.price || 0;
+    const [price, setPrice] = useState<number>(defaultPrice);
+    const itemsToBuy = useMemo(() => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], []);
 
     useEffect(() => {
-        setTotalPrice(prev => prev + price);
-    }, [price]);
+        console.log("Mount");
+        !isDeleted && setTotalPrice(prev => prev + defaultPrice * constant);
+        setIsDeleted(false);
+        setPrice(defaultPrice * count);
+    }, [count]);
 
-    const deleteDevice = useCallback(() => {
+    const deleteDevice = () => {
+        setIsDeleted(true);
+        setTotalPrice(prev => prev - defaultPrice * count);
         dispatch(basketActions.deleteDevice(basketDevice));
-        setTotalPrice(prev => prev - price);
-    },  []);
-        
+    };
+
+    const selectItemsCount = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCount(prev => {
+            setConstant(+e.target.value - prev);
+            return +e.target.value;
+        });
+    };
 
     return (
         <Row className="main">
@@ -48,11 +63,14 @@ const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPr
                 x{count}
             </div>
             <Row className="device_purchase_info">
-                <FormSelect></FormSelect>
+                <select onChange={selectItemsCount}>
+                    <option value="default" disabled>Select Count</option>
+                    {itemsToBuy.map(count => <option key={count} value={count}>{count}</option>)}
+                </select>
                 <Button onClick={deleteDevice}>Delete</Button>
             </Row>
         </Row>
     );
 }
 
-export default BasketDeviceItem;
+export default memo(BasketDeviceItem);

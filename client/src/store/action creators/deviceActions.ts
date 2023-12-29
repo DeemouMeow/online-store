@@ -11,11 +11,9 @@ export const createDevice = createAsyncThunk(
     "device/create",
     async (data: FormData, thunkAPI) => {
         try {
-            console.log("Data", data);
             const response = await $api.post("/device", data);
-            console.log("Response", response);
             
-            return response.data;
+            return response.data.device;
         } catch (e: any) {
             thunkAPI.rejectWithValue(e.response.data.message);
         }
@@ -32,6 +30,7 @@ export const getDevices = createAsyncThunk(
             
             const devices = response.data.devices.rows as IDevice[];
             const updated = devices.map(device => ({...device, info: infos.filter(info => info.deviceId === device.id)}));
+            console.log("Response", response);
             
             return updated;
         } catch (e: any) {
