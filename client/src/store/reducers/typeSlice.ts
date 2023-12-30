@@ -42,7 +42,6 @@ export const typeSlice = createSlice({
             state.error = null;
         })
         .addCase(createType.fulfilled.type, (state, action : PayloadAction<IType>) => {
-            console.log("Action", action.payload);
             state.isLoading = false;
             state.error = null;
             state.types = [...state.types, action.payload];

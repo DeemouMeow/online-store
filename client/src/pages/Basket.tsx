@@ -23,7 +23,6 @@ const Basket = () => {
     return <Spinner />;
   }
 
-
   return (
     <div className="basket">
       {basketItems.length

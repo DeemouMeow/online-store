@@ -3,12 +3,17 @@ import { useAppDispatch, useTypedSelector } from "../../hooks/redux";
 import { ListGroup } from "react-bootstrap";
 import { typeSlice } from "../../store/reducers/typeSlice";
 import { IType } from "../../types/models/IType";
+import { paginationSlice } from "../../store/reducers/paginationReducer";
 
 const TypeBar: FC = () => {
     const dispatch = useAppDispatch();
     const types = useTypedSelector(state => state.typeReducer.types);
     const selectedType = useTypedSelector(state => state.typeReducer.selectedType);
-    const selectType = useCallback((type: IType | null) => dispatch(typeSlice.actions.selectType(type)), []);
+    const selectType = useCallback((type: IType | null) => {
+        dispatch(paginationSlice.actions.setPage(1));
+        dispatch(typeSlice.actions.selectType(type));
+    }, []);
+
     
     return (
         <ListGroup style={{maxHeight: 300, overflow: "scroll", overflowX: "hidden"}}>
