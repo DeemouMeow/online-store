@@ -9,8 +9,6 @@ const BrandBar: FC = () => {
     const selectedBrand = useTypedSelector(state => state.brandReducer.selectedBrand);
     const { selectBrand } = brandSlice.actions;
 
-    console.log("Render brands");
-
     return (
         <ListGroup className="mt-4" style={{maxHeight: 300, overflow: "scroll", overflowX: "hidden"}}>
             {brands.map(brand =>

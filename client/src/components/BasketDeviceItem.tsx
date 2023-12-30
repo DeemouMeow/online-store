@@ -1,6 +1,6 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { IBasketDevice } from "../types/models/IBasketDevice";
-import { Row, Image, FormSelect, Button } from "react-bootstrap";
+import { Row, Image, Button } from "react-bootstrap";
 import { useAppDispatch, useTypedSelector } from "../hooks/redux";
 import url from "../assets/star-mini.png";
 import "../styles/basket_device_item.css";
@@ -25,24 +25,23 @@ const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPr
     const itemsToBuy = useMemo(() => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], []);
 
     useEffect(() => {
-        console.log("Mount");
         !isDeleted && setTotalPrice(prev => prev + defaultPrice * constant);
-        setIsDeleted(false);
         setPrice(defaultPrice * count);
     }, [count]);
 
-    const deleteDevice = () => {
+    const deleteDevice = useCallback(() => {
         setIsDeleted(true);
-        setTotalPrice(prev => prev - defaultPrice * count);
+        setTotalPrice(prev => prev - price);
         dispatch(basketActions.deleteDevice(basketDevice));
-    };
+    }, [price]);
 
-    const selectItemsCount = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectItemsCount = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
         setCount(prev => {
             setConstant(+e.target.value - prev);
             return +e.target.value;
         });
-    };
+        setIsDeleted(false);
+    }, []);
 
     return (
         <Row className="main">
@@ -56,8 +55,8 @@ const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPr
                     </div>
                 </div>
             </div>
-            <div className="price_info" style={{fontSize: 15}}>
-                <strong style={{fontSize: 15}}>
+            <div className="price_info" style={{ fontSize: 15 }}>
+                <strong style={{ fontSize: 15 }}>
                     {price} Rub
                 </strong>
                 x{count}
@@ -73,4 +72,4 @@ const BasketDeviceItem: FC<IBasketDeviceItemProps> = ({ basketDevice, setTotalPr
     );
 }
 
-export default memo(BasketDeviceItem);
+export default React.memo(BasketDeviceItem);

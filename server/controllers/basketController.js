@@ -47,8 +47,6 @@ export default class BasketController {
                     basketId: req.user.id
                 }
             });
-            console.log("And Here");
-
 
             return res.json(devices);
         } catch (e) {

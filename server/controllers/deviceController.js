@@ -32,7 +32,7 @@ export default class DeviceController {
 
     static async getAll(req, res, next) {
         try {
-            const { typeId, brandId, limit = 20, page = 1 } = req.query;
+            const { typeId, brandId, limit = 5, page = 1 } = req.query;
             const selector = {};
             const offset = limit * (page - 1);
             
@@ -44,7 +44,6 @@ export default class DeviceController {
                 limit,
                 offset
             });
-            console.log("In getAll", devices.rows);
             
             const infos = await DeviceInfo.findAll();
             return res.json({devices, infos});

@@ -30,7 +30,7 @@ export const getDevices = createAsyncThunk(
             
             const devices = response.data.devices.rows as IDevice[];
             const updated = devices.map(device => ({...device, info: infos.filter(info => info.deviceId === device.id)}));
-            console.log("Response", response);
+            // console.log("Response", response);
             
             return updated;
         } catch (e: any) {

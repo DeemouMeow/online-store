@@ -9,8 +9,6 @@ const TypeBar: FC = () => {
     const selectedType = useTypedSelector(state => state.typeReducer.selectedType);
     const { selectType } = typeSlice.actions;
     
-    console.log("Render types");
-    
     return (
         <ListGroup style={{maxHeight: 300, overflow: "scroll", overflowX: "hidden"}}>
             {types.map(type =>
