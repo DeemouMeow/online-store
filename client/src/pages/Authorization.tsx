@@ -17,8 +17,8 @@ const Authorization: FC = () => {
   const [password, setPassword] = useState<string>("");
 
   async function sendData() {
-    isLogin ? dispatch(login({ email, password })).then(data => navigate(routes.shop)) 
-            : dispatch(registration({ email, password })).then(data => navigate(routes.shop));
+    isLogin ? dispatch(login({ email, password })).then(data => typeof data.payload === "string" ? data : navigate(routes.shop))
+            : dispatch(registration({ email, password })).then(data => typeof data.payload === "string" ? data : navigate(routes.shop));
   }
 
   return (

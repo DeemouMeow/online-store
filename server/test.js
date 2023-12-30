@@ -1,4 +1,0 @@
-import jwt from "jsonwebtoken";
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZWVtb3VAZG9tYWluLmNvbSIsInJvbGVzIjpbIlVzZXIiLCJBZG1pbiJdLCJpYXQiOjE3MDMwOTgxMTcsImV4cCI6MTcwMzA5ODE3N30.JToo5LT9nydj7jlAtfIb9LpJkAjXsbxpvzzRcB3MyKg"
-console.log(jwt.verify(token, "ACCESS_KEY"));
