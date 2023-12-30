@@ -50,7 +50,6 @@ export default class DeviceController {
                 limit,
                 offset
             });
-            console.log(limit);
             
             const infos = await DeviceInfo.findAll();
             return res.json({devices, infos});
