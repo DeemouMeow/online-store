@@ -4,12 +4,14 @@ import { createDevice, getDevices } from "../action creators/deviceActions";
 
 interface IDeviceState {
     devices: IDevice[];
+    count: number;
     error: string | null;
     isLoading: boolean;
 }
 
 const initialState: IDeviceState = {
     devices: [],
+    count: 0,
     error: null,
     isLoading: false
 };
@@ -37,12 +39,11 @@ export const deviceSlice = createSlice({
             state.isLoading = true;
             state.error = null;
         })
-        .addCase(getDevices.fulfilled.type, (state, action: PayloadAction<IDevice[]>) => {
+        .addCase(getDevices.fulfilled.type, (state, action: PayloadAction<{devices: IDevice[], count: number}>) => {
             state.isLoading = false;
             state.error = null;
-            state.devices = action.payload;
-            console.log("State devices ", state.devices);
-            
+            state.devices = action.payload.devices;
+            state.count = action.payload.count;
         })
         .addCase(getDevices.rejected.type, (state, action: PayloadAction<string>) => {
             state.isLoading = false;
@@ -51,4 +52,6 @@ export const deviceSlice = createSlice({
     }
 });
 
-export default deviceSlice.reducer;
+const deviceReducer = deviceSlice.reducer;
+
+export default deviceReducer;

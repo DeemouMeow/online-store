@@ -56,4 +56,6 @@ export const typeSlice = createSlice({
     }
 });
 
-export default typeSlice.reducer;
+const typeReducer = typeSlice.reducer;
+
+export default typeReducer;

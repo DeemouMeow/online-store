@@ -4,6 +4,7 @@ import deviceReducer from "./reducers/deviceSlice";
 import brandReducer from "./reducers/brandSlice";
 import typeReducer from "./reducers/typeSlice";
 import basketReducer from "./reducers/basketSlice";
+import paginationReducer from "./reducers/paginationReducer";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     brandReducer,
     typeReducer,
     basketReducer,
+    paginationReducer
 });
 
 export const setupStore = () => {

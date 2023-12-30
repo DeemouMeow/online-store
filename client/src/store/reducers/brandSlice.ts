@@ -54,4 +54,6 @@ export const brandSlice = createSlice({
     }
 });
 
-export default brandSlice.reducer;
+const brandReducer = brandSlice.reducer;
+
+export default brandReducer;

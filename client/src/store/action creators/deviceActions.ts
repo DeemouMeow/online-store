@@ -7,12 +7,19 @@ interface IInfos extends IInfo {
     deviceId: number;
 }
 
+interface IGetDeviceParams {
+    typeId: number | null;
+    brandId: number | null;
+    limit: number;
+    page: number;
+}
+
 export const createDevice = createAsyncThunk(
     "device/create",
     async (data: FormData, thunkAPI) => {
         try {
             const response = await $api.post("/device", data);
-            
+
             return response.data.device;
         } catch (e: any) {
             thunkAPI.rejectWithValue(e.response.data.message);
@@ -23,16 +30,16 @@ export const createDevice = createAsyncThunk(
 
 export const getDevices = createAsyncThunk(
     "device/getAll",
-    async (_, thunkAPI) => {
+    async (data: IGetDeviceParams | null, thunkAPI) => {
         try {
-            const response = await $api.get("/device");
+            const response = await $api.get("/device", { params: { ...data } });
             const infos = response.data.infos as IInfos[];
-            
+
             const devices = response.data.devices.rows as IDevice[];
-            const updated = devices.map(device => ({...device, info: infos.filter(info => info.deviceId === device.id)}));
-            // console.log("Response", response);
+            const count = response.data.devices.count;
+            const updated = devices.map(device => ({ ...device, info: infos.filter(info => info.deviceId === device.id) }));
             
-            return updated;
+            return { devices: updated, count };
         } catch (e: any) {
             thunkAPI.rejectWithValue(e.response.data.message);
         }

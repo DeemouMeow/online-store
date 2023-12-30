@@ -65,4 +65,6 @@ export const basketSlice = createSlice({
     }
 });
 
-export default basketSlice.reducer;
+const basketReducer = basketSlice.reducer;
+
+export default basketReducer;
